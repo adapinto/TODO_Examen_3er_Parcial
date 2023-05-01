@@ -2,10 +2,17 @@ import { useState , useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { ITask } from './interfaces/ITask' 
+import { ITask } from './interfaces/ITask'  
 
 import TaskForm from './components/TaskForm'
+
+
 import Panel from './components/Panel'
+
+
+import AddPanelForm from "./components/AddPanelForm";
+import { IAddPanel } from "./interfaces/IAddPanel";
+
 
 
 function App() {
@@ -14,7 +21,7 @@ function App() {
   const [task, setTask] = useState<ITask>({ "status" : "TODO", "id": 0 })
   const [taskList, setTaskList] = useState<ITask[]>([])
   const [teams, setTeams] = useState<string[]>(["Development", "QA", "PMs", "BI"])
-  
+ 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask({...task, [e.target.name]: e.target.value})
@@ -54,12 +61,28 @@ function App() {
     })
   }
 
+
+
+
+//******************************************************************************************************* */
+//******************************************************************************************************* */
   return (
     <div className="App">
 
       <header>
           <h1>TODO List</h1>
       </header>
+
+
+      <div className="container">
+        <h2>Agregar nuevo Panel</h2>
+        <AddPanelForm
+            task={task}
+            onChangeInput={handleInputChange}
+            onChangeSelect={handleSelectChange}
+            onSave={addTask}
+        />
+      </div>
 
       <div className="container">
         <TaskForm 

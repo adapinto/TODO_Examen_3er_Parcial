@@ -1,18 +1,12 @@
 import React from "react";
 
-export interface ITask {
+export interface IAddPanel {
     id: number;
     name?: string;
-    startdate?: Date;
-    enddate?: Date;
-    status?: string;
-    hours?: number;
-    team?: string;
 }
 
-export interface ITaskFormProps {
-    task: ITask;
-    teams: string[];
+export interface IAddPanelFormProps {
+    task: IAddPanel;
     onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onChangeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     onSave: () => void;
