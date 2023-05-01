@@ -8,11 +8,10 @@ import TaskForm from './components/TaskForm'
 
 
 import Panel from './components/Panel'
-
+import FilterPanel from './components/FilterPanel'
 
 import AddPanelForm from "./components/AddPanelForm";
 import { IAddPanel } from "./interfaces/IAddPanel";
-
 
 
 function App() {
@@ -21,6 +20,8 @@ function App() {
   const [task, setTask] = useState<ITask>({ "status" : "TODO", "id": 0 })
   const [taskList, setTaskList] = useState<ITask[]>([])
   const [teams, setTeams] = useState<string[]>(["Development", "QA", "PMs", "BI"])
+  const [filter, setFilter] = useState<string>('All');
+
  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +60,11 @@ function App() {
       , "team" : "" 
       , "hours" : 0 
     })
+
+  const handleFilterChange = (value: string) => {
+    setFilter(value);
+  };
+  
   }
 
 
@@ -92,6 +98,15 @@ function App() {
             onChangeSelect={handleSelectChange}
             onSave={addTask}             
         />
+      <div className="container">
+            <h2>Filtrar paneles</h2>
+            <FilterPanel
+               teams={teams} 
+               onChangeInput={handleInputChange}
+               onChangeSelect={handleSelectChange}
+            />
+            
+      </div>
         <div className="columnas">
           <Panel 
             title={"Tareas Pendientes"} 
