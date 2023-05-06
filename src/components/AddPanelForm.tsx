@@ -16,16 +16,19 @@ function AddPanelForm(props: IAddPanelFormProps) {
     const validateForm = () => {
         let newError: string[] = [];
 
-        // Validación para comprobar si el panel ya existe
-        if(props.panels.map((panel: { name: string; }) => panel.name.toLowerCase()).includes(panelName)) {
+        if (!Array.isArray(props.panels)) {
+            return null; // O mostrar un mensaje de error adecuado
+          }
+
+          if(props.panels.map((panel: { name: string; }) => panel.name.toLowerCase()).includes(panelName)) {
             newError = [...newError, 'Este panel ya existe'];
-        }
+          }
 
         // Validación para comprobar si el nombre del panel es válido
         if(!panelName) {
             newError = [...newError, 'El nombre del panel no puede estar vacío'];
         }
-
+          
         if (newError.length === 0) {
             props.onSave();
             setErrores([]);
