@@ -240,3 +240,13 @@ header h1 {
     width: 100%;
     max-width: 400px;
   }
+
+  .panel-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .panel {
+    width: calc(33.33% - 10px);
+    margin: 5px;
+  }

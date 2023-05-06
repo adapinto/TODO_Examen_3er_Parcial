@@ -5,55 +5,68 @@ function AddPanelForm(props: IAddPanelFormProps) {
 
     const [errores, setErrores] = useState<string[]>([])
 
-    const validateForm = () => {
-        
-        let newError: string[] = [];
-        
+    const [panelName, setPanelName] = useState('');
 
-        if(!props.task.name || props.task.name === '') {            
-            newError = [...newError, 'El nombre de la tarea es obligatorio']            
-        }
+    const [buttonVisible, setButtonVisible] = useState(false);
 
-        if( newError.length === 0 ) {
-            props.onSave()
-            setErrores([]) 
-        }else{
-            setErrores([...newError])    
-        }
-        
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPanelName(event.target.value.trim().toLowerCase()); // se hace trim() y toLowerCase() al input
     }
-  
-    return (        
+
+    const validateForm = () => {
+        let newError: string[] = [];
+
+        // Validación para comprobar si el panel ya existe
+        if(props.panels.map((panel: { name: string; }) => panel.name.toLowerCase()).includes(panelName)) {
+            newError = [...newError, 'Este panel ya existe'];
+        }
+
+        // Validación para comprobar si el nombre del panel es válido
+        if(!panelName) {
+            newError = [...newError, 'El nombre del panel no puede estar vacío'];
+        }
+
+        if (newError.length === 0) {
+            props.onSave();
+            setErrores([]);
+          } else {
+            setErrores([...newError]);
+          }
+    }
+
+    useEffect(() => {
+        // Validación para comprobar si se debe mostrar el botón de "Add"
+        setButtonVisible(panelName !== '');
+    }, [panelName]);
+
+    return (
         <form>
             <table>
-                <tr>
-                    <td> <label htmlFor="taskName">Panel</label> </td>
-                    <td> <input type="text" onChange={props.onChangeInput} name="name" placeholder='New name panel' value={props.task.name} /> </td>
-                </tr>
-                
-                <tr>
-                    <td></td>
-                    
+                <tbody>
+                    <tr>
+                        <td><label htmlFor="taskName">Panel</label></td>
+                        <td><input type="text" onChange={handleInput} name="name" placeholder='New name panel' value={panelName} /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
                         <td>
-                            <button type="button" onClick={ validateForm }  >Add</button>
-                            { errores.length > 0 && (
-                            <div>
-                                <h2>Errores</h2>
-                                <div className="error-card">   
-                                    { errores.map((error) => {
-                                        return <p>{error}</p>
-                                    })}                                                                 
+                            {buttonVisible && <button type="button" onClick={validateForm}>Add</button>}
+                            {errores.length > 0 && (
+                                <div>
+                                    <h2>Errores</h2>
+                                    <div className="error-card">
+                                        {errores.map((error) => {
+                                            return <p>{error}</p>
+                                        })}
+                                    </div>
                                 </div>
-                            </div>
-                            ) }
+                            )}
                         </td>
-                    
-                </tr>            
-
-            </table>        
-        </form>        
+                    </tr>
+                </tbody>
+            </table>
+        </form>
     );
-
 }
 
 export default AddPanelForm;

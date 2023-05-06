@@ -6,6 +6,7 @@ export interface IAddPanel {
 }
 
 export interface IAddPanelFormProps {
+    panels: any;
     task: IAddPanel;
     onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onChangeSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;

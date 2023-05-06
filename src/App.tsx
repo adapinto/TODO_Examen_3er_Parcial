@@ -22,8 +22,6 @@ function App() {
   const [teams, setTeams] = useState<string[]>(["Development", "QA", "PMs", "BI"])
   const [filter, setFilter] = useState<string>('All');
 
- 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask({...task, [e.target.name]: e.target.value})
   }
@@ -83,6 +81,7 @@ function App() {
       <div className="container">
         <h2>Agregar nuevo Panel</h2>
         <AddPanelForm
+            panels={Panel}
             task={task}
             onChangeInput={handleInputChange}
             onChangeSelect={handleSelectChange}
